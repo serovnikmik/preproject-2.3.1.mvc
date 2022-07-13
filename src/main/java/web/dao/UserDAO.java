@@ -17,7 +17,6 @@ public class UserDAO {
     private static int IDCounter = 2;
 
     private EntityManager em;
-//    private EntityManagerFactory emf;
 
     @Autowired
     public UserDAO(LocalContainerEntityManagerFactoryBean lcemfb){
@@ -63,6 +62,11 @@ public class UserDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public User getUser(int id){
+        User user = em.find(User.class, id);
+        return user;
     }
 
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User</title>
+</head>
+<body>
+<p th:text="${'user ID: ' + user.getId()}">VALUE</p>
+
+<p th:text="${'user name: ' + user.getName()}">VALUE</p>
+
+<p th:text="${'user age: ' + user.getAge()}">VALUE</p>
+
+<a th:text="Go back to users list" th:href="@{/user/list}"></a>
+
+</body>
+</html>
