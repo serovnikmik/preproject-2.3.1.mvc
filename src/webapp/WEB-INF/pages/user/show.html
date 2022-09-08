@@ -11,7 +11,19 @@
 
 <p th:text="${'user age: ' + user.getAge()}">VALUE</p>
 
-<a th:text="Go back to users list" th:href="@{/user/list}"></a>
+<p th:text="${'user email: ' + user.getEmail()}">VALUE</p>
+
+<a th:href="@{/user/list}" th:text="${'Go back to users list'}"></a>
+
+<p></p>
+
+<a th:href="@{/user/{id}/edit(id=${user.getId()})}">Edit</a>
+
+<p></p>
+
+<form th:method="DELETE" th:action="@{/user/{id}(id=${user.getId()})}">
+  <input type="submit" value="Delete"/>
+</form>
 
 </body>
 </html>

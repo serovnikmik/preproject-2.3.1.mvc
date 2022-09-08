@@ -17,16 +17,34 @@ This page will contain list of all users.
             <th scope="col">User ID</th>
             <th scope="col">User Name</th>
             <th scope="col">User Age</th>
+            <th scope="col">User Email</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${list}">
-            <td th:text="${user.id}"></td>
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.age}"></td>
+            <td><a th:href="@{/user/{id}(id=${user.getId()})}"
+                th:text="${user.getId()}"></a></td>
+            <td th:text="${user.getName()}"></td>
+            <td th:text="${user.getAge()}"></td>
+            <td th:text="${user.getEmail()}"></td>
         </tr>
         </tbody>
     </table>
 </div>
+
+<p></p>
+
+<a th:href="@{/user/deleteAllUsers}" th:text="${'delete all users'}"></a>
+
+<p></p>
+
+<a th:href="@{/user/addExamples}" th:text="${'add example users'}"></a>
+
+<p></p>
+
+<a th:href="@{/user/create}" th:text="${'create new user'}"></a>
+
+
+
 </body>
 </html>

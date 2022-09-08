@@ -10,6 +10,10 @@
     <th:block th:each="msg : ${messages}">
         <h1 th:text="${msg}"></h1>
     </th:block>
+
+    <p></p>
+
+    <a th:href="@{/user/list}" th:text="${'go to users list'}"></a>
 </div>
 </body>
 </html>

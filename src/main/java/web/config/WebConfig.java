@@ -77,7 +77,7 @@ public class WebConfig implements WebMvcConfigurer {
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/new_db");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/2.3.1");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         return dataSource;
@@ -98,8 +98,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
+//        properties.setProperty("generate.ddl", "true");
+        properties.setProperty("show.sql", "true");
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("spring.mvc.hiddenmethod.filter.enabled", "true");
 
         return properties;
     }
