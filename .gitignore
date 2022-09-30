@@ -1,0 +1,10 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### traget folders ###
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
