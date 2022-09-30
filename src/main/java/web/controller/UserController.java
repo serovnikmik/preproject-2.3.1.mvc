@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import web.models.User;
 import web.services.UserService;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -31,16 +28,9 @@ public class UserController {
         return "user/list";
     }
 
-    @GetMapping("/addExamples")
-    public String addExamples(){
-        userService.saveExampleUsers();
-        return "redirect:/user/list";
-    }
-
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model){
         model.addAttribute("user", userService.getUser(id));
-        System.out.println(userService.getUser(id));
         return "user/show";
     }
 
@@ -75,12 +65,10 @@ public class UserController {
 
     @DeleteMapping ("/{id}")
     public String delete(@PathVariable("id") int id){
-        System.out.println("Trying to delete user: " + userService.getUser(id));
         userService.delete(id);
         return "redirect:/user/list";
     }
 
-//    @PostMapping("/{id}", method = RequestMethod.DELETE)
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult,
@@ -88,9 +76,7 @@ public class UserController {
         if (bindingResult.hasErrors()){
             return "user/edit";
         }
-
-        System.out.println("Trying to update user: " + userService.getUser(id));
-        userService.update(id, user);
+        userService.update(user);
         return "redirect:/user/" + id;
     }
 }
