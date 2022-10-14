@@ -16,18 +16,17 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 @Configuration
 @ComponentScan("web")
-@ComponentScan(basePackages="web.repository")
 @EnableTransactionManagement
+@PropertySource("classpath:application.properties")
+@PropertySource("classpath:datasource.properties")
 public class JPAConfig {
 
-//    @Autowired
-//    private Environment env;
+    @Autowired
+    private Environment env;
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -46,23 +45,26 @@ public class JPAConfig {
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        try(InputStream inp = JPAConfig.class.getClassLoader().getResourceAsStream("application.properties")) {
-
-            if (inp == null){
-                System.out.println("Unable to find application.properties file");
-                return dataSource;
-            }
-
-            Properties prop = new Properties();
-            prop.load(inp);
-
-            dataSource.setDriverClassName(prop.getProperty("datasource.driverClassName"));
-            dataSource.setUrl(prop.getProperty("datasource.url"));
-            dataSource.setUsername(prop.getProperty("datasource.username"));
-            dataSource.setPassword(prop.getProperty("datasource.password"));
-        } catch (IOException ex){
-            ex.printStackTrace();
+        if (!env.containsProperty("datasource.driverClassName")){
+            System.out.println("Unable to set driver class name");
+            return null;
         }
+        if (!env.containsProperty("datasource.url")){
+            System.out.println("Unable to set url for database");
+            return null;
+        }
+        if (!env.containsProperty("datasource.username")){
+            System.out.println("Unable to set username to enter database");
+            return null;
+        }
+        if (!env.containsProperty("datasource.password")){
+            System.out.println("Unable to set password to enter database");
+            return null;
+        }
+        dataSource.setDriverClassName(env.getProperty("datasource.driverClassName"));
+        dataSource.setUrl(env.getProperty("datasource.url"));
+        dataSource.setUsername(env.getProperty("datasource.username"));
+        dataSource.setPassword(env.getProperty("datasource.password"));
 
         return dataSource;
     }
@@ -82,11 +84,11 @@ public class JPAConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("show.sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("spring.mvc.hiddenmethod.filter.enabled", "true");
-
+        try{
+            properties.load(getClass().getClassLoader().getResourceAsStream("application.properties"));
+        } catch (Exception e){
+            System.out.println("File with JPA properties not found");
+        }
         return properties;
     }
 
