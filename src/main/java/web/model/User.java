@@ -1,4 +1,4 @@
-package web.models;
+package web.model;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -6,11 +6,10 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 
-@Component
 @Entity
-@Table(name = "user")
-public class User{
+public class User implements Serializable {
 
     @Id
     @Column(name="user_id")

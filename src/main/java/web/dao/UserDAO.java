@@ -1,6 +1,6 @@
 package web.dao;
 
-import web.models.User;
+import web.model.User;
 
 import java.util.List;
 
